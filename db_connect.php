@@ -1,21 +1,17 @@
 <?php
-$host = 'localhost';
-$db   = 'my_sample_db';
-$user = 'postgres'; // あなたのユーザー名
-$pass = 'Tomoyuki3534'; // pgAdminで設定したパスワード
-$port = '5432';
+// 環境変数から接続情報を取得する（Renderの設定画面で後ほど登録します）
+$host = getenv('DB_HOST');
+$db   = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$port = getenv('DB_PORT') ?: '5432';
 
-// 接続文字列（DSN）
-$dsn = "pgsql:host=$host;port=$port;dbname=$db;";
+$dsn = "pgsql:host=$host;port=$port;dbname=$db";
 
 try {
-    // PDOインスタンスの作成
-    $pdo = new PDO($dsn, $user, $pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-    echo "データベース接続に成功しました！ 🎉";
+    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch (PDOException $e) {
+    // 本番環境では詳細なエラーを出さないのがセオリーですが、今は確認のため表示します
     echo "接続失敗: " . $e->getMessage();
+    exit;
 }
-?>
