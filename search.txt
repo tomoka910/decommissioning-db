@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>1F廃炉資料検索システム</title>
+</head>
+<body>
+    <h1>1F廃炉資料 検索</h1>
+    
+    <form action="search.php" method="GET">
+        
+        <label for="year">作成年：</label>
+        <select name="year" id="year">
+            <option value="">すべて</option>
+            <option value="2011">2011年</option>
+            <option value="2012">2012年</option>
+            </select>
+
+        <br><br>
+
+        <label for="source">出典：</label>
+        <select name="source" id="source">
+            <option value="">すべて</option>
+            <option value="中長期ロードマップ">中長期ロードマップ（廃炉・汚染水・処理水対策関係閣僚等会議等）</option>
+            </select>
+
+        <br><br>
+
+        <input type="submit" value="この条件で検索">
+    </form>
+</body>
+</html>
