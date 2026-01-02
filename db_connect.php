@@ -1,17 +1,19 @@
 <?php
-// 環境変数から接続情報を取得する（Renderの設定画面で後ほど登録します）
+// Renderの「Environment」で設定した値を読み込みます
 $host = getenv('DB_HOST');
-$db   = getenv('DB_NAME');
+$port = getenv('DB_PORT') ?: '5432';
+$dbname = getenv('DB_NAME');
 $user = getenv('DB_USER');
 $pass = getenv('DB_PASS');
-$port = getenv('DB_PORT') ?: '5432';
 
-$dsn = "pgsql:host=$host;port=$port;dbname=$db";
+// 接続文字列（DSN）を作成します
+$dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
 
 try {
+    // search.phpで使うための「$pdo」という変数に接続を保存します
     $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch (PDOException $e) {
-    // 本番環境では詳細なエラーを出さないのがセオリーですが、今は確認のため表示します
-    echo "接続失敗: " . $e->getMessage();
-    exit;
+    // 接続に失敗した場合は、エラーメッセージを表示して処理を中断します
+    die("接続失敗: " . $e->getMessage());
 }
+?>
